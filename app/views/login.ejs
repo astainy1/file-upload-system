@@ -1,0 +1,26 @@
+<!-- Add header information -->
+<%- include('./partials/_header.ejs') %>
+
+<section class="login-main-container">
+    <form action="/dashboard" method="post">
+
+        <section class="header">
+            <h4>Log in</h4>
+        </section>
+
+        <section class="input-container">
+            <!-- <input type="text" name="username" id="username" placeholder="Username"> -->
+            <input type="email" name="email" id="email" placeholder="Email address" autofocus required>
+            <input type="password" name="password" id="password" placeholder="Password" required>
+            <button type="submit" id="submit-btn">Login </button>
+        </section>
+
+        <section class="form-footer">
+            <p><i>Don't have account?</i> <span><a href="/signup">Sign Up</a></span></p>
+        </section>
+        
+    </form>
+</section>
+
+<%- include('./partials/_footer.ejs') %>
+<!-- Add footer information -->
