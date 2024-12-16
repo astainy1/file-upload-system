@@ -1,15 +1,26 @@
 <!-- Add header information -->
-<%- include('./partials/_header.ejs') %>
+<%- include('./partials/_auth_header.ejs') %>
 
 <section class="login-main-container">
     <form action="/" method="post">
 
-        <section class="header">
+        <section class="header login_and_signup">
             <h4>Sign Up</h4>
-        </section>
+            <% if(errorMessage && errorMessage.length > 0) { %> 
+                    <% errorMessage.forEach((error) => { %>
+                    <span class="error-message"><%= error %></span>
+                    <% }) %>
+            <% } %>
 
+            <!-- <% if(successMessage && successMessage.length > 0) { %>
+                    <% successMessage.forEach((success) => { %>
+                    <span class="success-message"><%= success %></span>
+                    <% }) %>
+            <% } %> -->
+        </section>
+        
         <section class="input-container">
-            <input type="text" name="username" id="username" placeholder="Username" autofocus required>
+            <input type="text" name="username" id="username" placeholder="Username" >
             <input type="email" name="email" id="email" placeholder="Email address" required>
             <input type="password" name="password" id="password" placeholder="Password">
             <input type="submit" value="Sign Up" id="submit-btn">
@@ -22,5 +33,5 @@
     </form>
 </section>
 
-<%- include('./partials/_footer.ejs') %>
+<%- include('./partials/_auth_footer.ejs') %>
 <!-- Add footer information -->

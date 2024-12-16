@@ -1,0 +1,144 @@
+<%- include('./partials/_header.ejs') %>
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <%- include('./partials/_sidebar.ejs') %>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <%- include('./partials/_topbar.ejs') %>
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Profile Section -->
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 p-0">
+                        <div class="card border-0 shadow-sm">
+
+                            <!-- Cover Photo -->
+                            <div class="position-relative" style="height: 150px; background-color: #f1f1f1;">
+                                <img id="cover-photo" src="./img/pic1.png" class="img-fluid w-100 h-100 object-fit-cover rounded-top" alt="Cover Photo" style="cursor: pointer;">
+                                <input type="file" id="cover-photo-upload" style="display: none;" accept="image/*">
+                                
+                                <!-- Profile Picture -->
+                                <div class="profile-picture position-absolute mb-3" style="bottom: -50px; left: 20%; transform: translateX(-50%);">
+                                    <img id="profile-photo" src="./img/christian.jpg" class="rounded-circle border border-3 border-white shadow" alt="Profile Picture" width="100" height="100" style="cursor: pointer;">
+                                    <input type="file" id="profile-photo-upload" style="display: none;" accept="image/*">
+                                </div>
+                            </div>
+
+                            <!-- User Details -->
+                            <form action="/profile" method="post" class="row  text-left  ml-3 me-3 mt-5 mb-2 d-flex flex-column ">
+
+                                <div class="col-12 d-flex justify-content-center align-items-start flex-column">
+                                    <div class="col-9 mb-3">
+                                        <input type="text" name="username" value="<%= loggedInUser.username %>" placeholder="Enter username"  class="text-capitalize form-control" aria-label="username">
+                                    </div>
+                                    <div class="col-9 mb-3">
+                                        <input type="text" name="fullname" value="Christian A. Harris" placeholder="Enter full name" class="form-control">
+                                    </div>
+                                    <div class="col-9 mb-3">
+                                        <input type="email" name="email" value="astainyharris1@gmail.com" placeholder="Enter email address"  class="form-control">
+                                    </div>
+                                    <div class="col-9 mb-3">
+                                        <input type="password" name="password" value="************" placeholder="Enter password" class="form-control">
+                                    </div>
+                                    <div class="col-9 mb-3">
+                                        <button type="submit" class="custom-btn-primary"> Edit Profile</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; Astainy File Upload System 2024</span>
+                </div>
+            </div>
+        </footer>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+     <!-- Scroll to Top Button-->
+     <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Logging out?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="custom-btn-primary" href="/">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- JavaScript to Handle Click Events -->
+<script>
+    // Cover photo click to open file input
+    document.getElementById('cover-photo').addEventListener('click', function () {
+        document.getElementById('cover-photo-upload').click();
+    });
+
+    // Profile photo click to open file input
+    document.getElementById('profile-photo').addEventListener('click', function () {
+        document.getElementById('profile-photo-upload').click();
+    });
+
+    // Preview uploaded cover photo
+    document.getElementById('cover-photo-upload').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('cover-photo').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Preview uploaded profile photo
+    document.getElementById('profile-photo-upload').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('profile-photo').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+<%- include('./partials/_footer.ejs') %>

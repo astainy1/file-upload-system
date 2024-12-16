@@ -1,10 +1,4 @@
 // document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('file-upload').addEventListener('change', function(event) {
-        const fileInput = event.target;
-        const fileName = fileInput.files[0] ? fileInput.files[0].name : "Click file to upload";
-        document.getElementById('upload-text').textContent = fileName;
-    });
-
 
     // Target HTML elements
     const email = document.getElementById('email');
@@ -14,8 +8,8 @@
     // Initial state setup
     loginSubmitBtn.disabled = true;
     loginSubmitBtn.style.cursor = 'not-allowed';
+    loginSubmitBtn.style.opacity = '0.4';
     password.disabled = true;
-
 
     // Email input event listener
     email.addEventListener('keyup', () => {
@@ -33,10 +27,12 @@
         if (password.value.trim().length > 0) {
             console.log('Password has a value');
             loginSubmitBtn.disabled = false; // Enable the submit button
+            loginSubmitBtn.style.opacity = '1';
             loginSubmitBtn.style.cursor = 'pointer';
         } else {
             console.log('Password does not have a valid input');
             loginSubmitBtn.disabled = true;
+            loginSubmitBtn.style.opacity = '0.4';
             loginSubmitBtn.style.cursor = 'not-allowed';
         }
     });
@@ -44,6 +40,7 @@
     // Helper function to reset form state
     function resetFormState() {
         loginSubmitBtn.disabled = true;
+        loginSubmitBtn.style.opacity = '0.4';
         loginSubmitBtn.style.cursor = 'not-allowed';
         password.disabled = true;
         password.value = ''; // Clear password input

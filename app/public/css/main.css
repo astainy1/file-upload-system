@@ -87,7 +87,7 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    gap: 2em;
+    gap: 1em;
     box-shadow: 0.1em 0.1em 0.3em rgba(0, 0, 0, 0.05), 
     -0.1em -0.1em 0.3em rgba(0, 0, 0, 0.05);
     width: 20%;
@@ -147,10 +147,11 @@ body {
 
 .header h4{
     font-size: 1.4em;
-    margin-top: 0.2em;
+    margin-top: 0.5em;
     color: #474747;
     font-weight: 400;
     text-transform: uppercase;
+    text-align: center;
 }
 
 .form-footer p{
@@ -243,6 +244,7 @@ body {
     min-width: 600px;
     padding: 30px;
     box-shadow: 0.2em 0.2em 0.6em rgba(0, 0, 0, 0.2);
+    
 }
 
 .dashbord-main-container header .profile-picture-container{
@@ -368,3 +370,23 @@ body {
 }
 
 /* File upload section ends */
+
+/* messsages */
+
+.error-message {
+    color: red ;
+    display: block;
+    width: 180px;
+    font-size: 0.8em;
+    text-align: center;
+}
+
+.success-message {
+    color: green ;
+    font-size: 0.8em;
+    word-wrap: break-word;
+    max-width: 100px;
+    display: block;
+}
+
+/* messages ends */

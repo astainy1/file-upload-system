@@ -1,11 +1,24 @@
 <!-- Add header information -->
-<%- include('./partials/_header.ejs') %>
+<%- include('./partials/_auth_header.ejs') %>
 
 <section class="login-main-container">
     <form action="/dashboard" method="post">
 
-        <section class="header">
+        <section class="header login_and_signup">
             <h4>Log in</h4>
+            <!-- <% if(successMessage && successMessage.length > 0) { %>  
+                    <% successMessage.forEach((success) => { %>
+                    <span class="success-message"><%= success %></span>
+                    <% }) %>
+
+            <% } %> -->
+            <% if(errorMessage && errorMessage.length > 0) { %>
+
+                    <% errorMessage.forEach((error) => { %>
+                    <span class="error-message"><%= error %></span>
+                    <% }) %>
+
+            <% } %>
         </section>
 
         <section class="input-container">
@@ -22,5 +35,5 @@
     </form>
 </section>
 
-<%- include('./partials/_footer.ejs') %>
+<%- include('./partials/_auth_footer.ejs') %>
 <!-- Add footer information -->
