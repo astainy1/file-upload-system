@@ -1,8 +1,9 @@
 const bcrypt = require('bcrypt');
-const db = require('../modals/db'); // Assuming this is the MySQL connection
+const db = require('../modals/db'); 
 require('dotenv').config();
 const saltRound = 12;
 const { body, validationResult } = require('express-validator');
+const { join } = require('path');
 
 // Signup Page GET Request
 exports.getSignup = (req, res) => {
@@ -18,6 +19,7 @@ exports.getSignup = (req, res) => {
 
 // Signup Page POST Request with Validation
 exports.postSignup = [
+
     body('username')
         .isLength({ min: 3 }).withMessage('Username must be at least 3 characters long')
         .isAlphanumeric().withMessage('Username must contain only letters and numbers'),
@@ -35,42 +37,62 @@ exports.postSignup = [
         }
 
         const { username, email, password } = req.body;
-
         // Check if user exists
         const checkUserQuery = `SELECT * FROM users WHERE username = ? OR email = ?`;
+        
         db.query(checkUserQuery, [username, email], (err, rows) => {
+            
             if (err) {
                 console.error(`Database error: ${err.message}`);
                 req.flash('error', 'An unexpected error occurred. Please try again.');
                 return res.redirect(303, '/signup');
             }
-
+            
             if (rows.length > 0) {
                 req.flash('error', 'Username or Email already exists!');
                 return res.redirect(303, '/signup');
             }
-
+            
             // Hash the password and insert user data
             bcrypt.hash(password, saltRound, (err, hashedPassword) => {
+
                 if (err) {
                     console.error(`Error hashing password: ${err.message}`);
                     req.flash('error', 'An unexpected error occurred. Please try again.');
                     return res.redirect(303, '/signup');
                 }
-
+                
                 const storeUserQuery = `INSERT INTO users(username, email, password) VALUES(?, ?, ?)`;
+                
                 db.query(storeUserQuery, [username, email, hashedPassword], (err, result) => {
+                    
                     if (err) {
                         console.error(`Database error: ${err.message}`);
                         req.flash('error', 'An unexpected error occurred. Please try again.');
                         return res.redirect(303, '/signup');
                     }
+                   
+                    const signedUpUserID = result.insertId;
+                    console.log(`Signup user id: ${signedUpUserID}`);
 
-                    console.log(`User ${username} has successfully signed up!`);
-                    req.flash('success', 'Sign Up Successful! Please log in.');
-                    res.redirect(303, '/');
+                    const defaultValues = `INSERT INTO user_profile(user_id, cover_photo, profile_image, full_name) 
+                    VALUES(?, 'default_cover.jpg', 'default_profile_image.jpg', 'User') `;
+                    
+                    db.query(defaultValues, [signedUpUserID], (err) => {
+                        if(err){
+                            console.error(`Error inserting default values into user_profile table: ${err.message}`);
+                            // req.flash('error', 'An unexpected error occurred. Please try again.');
+                            res.redirect(303, '/signup');
+                        }
+                        console.log(`User ${username} has successfully signed up! with ID ${signedUpUserID}`);
+                        req.flash('success', 'Sign Up Successful! Please log in.');
+                        res.redirect(303, '/');
+                    })
+
                 });
+
             });
+            
         });
     },
 ];

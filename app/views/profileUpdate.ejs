@@ -19,42 +19,74 @@
                 <!-- Profile Section -->
                 <div class="row justify-content-center">
                     <div class="col-lg-6 p-0">
-                        <div class="card border-0 shadow-sm">
+                        <form action="/profile" method="post" class="card border-0 shadow-sm" enctype="multipart/form-data">
 
-                            <!-- Cover Photo -->
+                             <!-- Cover Photo -->
                             <div class="position-relative" style="height: 150px; background-color: #f1f1f1;">
-                                <img id="cover-photo" src="./img/pic1.png" class="img-fluid w-100 h-100 object-fit-cover rounded-top" alt="Cover Photo" style="cursor: pointer;">
-                                <input type="file" id="cover-photo-upload" style="display: none;" accept="image/*">
-                                
+                                <img 
+                                    src="<%= profile && profile.cover_photo ? '/uploads/profile/' + profile.cover_photo : '/img/pic1.png' %>" 
+                                    class="img-fluid w-100 h-100 object-fit-cover rounded-top" 
+                                    id="cover-photo" 
+                                    alt="<%= profile.username %> Cover Photo"
+                                >
+                                <!-- Hidden File Input for Cover Photo -->
+                                <input 
+                                    type="file" 
+                                    id="cover-photo-input" 
+                                    style="display: none;" 
+                                    accept="image/*"
+                                    name="cover_photo"
+                                >
+
                                 <!-- Profile Picture -->
-                                <div class="profile-picture position-absolute mb-3" style="bottom: -50px; left: 20%; transform: translateX(-50%);">
-                                    <img id="profile-photo" src="./img/christian.jpg" class="rounded-circle border border-3 border-white shadow" alt="Profile Picture" width="100" height="100" style="cursor: pointer;">
-                                    <input type="file" id="profile-photo-upload" style="display: none;" accept="image/*">
+                                <div 
+                                    class="profile-picture position-absolute mb-3"  
+                                    style="bottom: -50px; left: 20%; transform: translateX(-50%);"
+                                >
+                                    <img 
+                                        src="<%= profile && profile.profile_image ? '/uploads/profile/' + profile.profile_image : '/img/undraw_profile_2.svg' %>" 
+                                        id="profile-photo" 
+                                        class="rounded-circle shadow" 
+                                        alt="<%= profile.username %> Profile Picture" 
+                                        width="100" 
+                                        height="100" 
+                                        style="border: 2px solid #58042f"
+                                    >
+                                    <!-- Hidden File Input for Profile Picture -->
+                                    <input 
+                                        type="file" 
+                                        id="profile-photo-input" 
+                                        style="display: none;" 
+                                        accept="image/*"
+                                        name="profile_image"
+                                    >
                                 </div>
                             </div>
 
+
+
                             <!-- User Details -->
-                            <form action="/profile" method="post" class="row  text-left  ml-3 me-3 mt-5 mb-2 d-flex flex-column ">
+                            <section class="row  text-left  ml-3 me-3 mt-5 mb-2 d-flex flex-column ">
 
                                 <div class="col-12 d-flex justify-content-center align-items-start flex-column">
                                     <div class="col-9 mb-3">
-                                        <input type="text" name="username" value="<%= loggedInUser.username %>" placeholder="Enter username"  class="text-capitalize form-control" aria-label="username">
+                                        <input type="text" name="username" value="<%= profile.username %>" placeholder="Enter username"  class="text-capitalize form-control" aria-label="username">
                                     </div>
                                     <div class="col-9 mb-3">
-                                        <input type="text" name="fullname" value="Christian A. Harris" placeholder="Enter full name" class="form-control">
+                                        <input type="text" name="fullname" value="<%= profile.full_name %>" placeholder="Enter full name" class="form-control">
                                     </div>
                                     <div class="col-9 mb-3">
-                                        <input type="email" name="email" value="astainyharris1@gmail.com" placeholder="Enter email address"  class="form-control">
+                                        <input type="email" name="email" value="<%= profile.email %>" placeholder="Enter email address"  class="form-control">
                                     </div>
-                                    <div class="col-9 mb-3">
+                                    <!-- <div class="col-9 mb-3">
                                         <input type="password" name="password" value="************" placeholder="Enter password" class="form-control">
-                                    </div>
+                                    </div> -->
                                     <div class="col-9 mb-3">
-                                        <button type="submit" class="custom-btn-primary"> Edit Profile</button>
+                                        <button type="submit" class="custom-btn-primary"> &nbsp;  &nbsp; Save &nbsp; &nbsp;  </button>
                                     </div>
                                 </div>
-                            </form>
-                        </div>
+                            </section>
+                        </form>
                     </div>
                 </div>
 
@@ -106,39 +138,40 @@
 
 
     <!-- JavaScript to Handle Click Events -->
-<script>
-    // Cover photo click to open file input
-    document.getElementById('cover-photo').addEventListener('click', function () {
-        document.getElementById('cover-photo-upload').click();
-    });
+    <script>
+        // Cover Photo Click to Open File Input
+        document.getElementById('cover-photo').addEventListener('click', function () {
+            document.getElementById('cover-photo-input').click();
+        });
 
-    // Profile photo click to open file input
-    document.getElementById('profile-photo').addEventListener('click', function () {
-        document.getElementById('profile-photo-upload').click();
-    });
+        // Profile Photo Click to Open File Input
+        document.getElementById('profile-photo').addEventListener('click', function () {
+            document.getElementById('profile-photo-input').click();
+        });
 
-    // Preview uploaded cover photo
-    document.getElementById('cover-photo-upload').addEventListener('change', function (event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                document.getElementById('cover-photo').src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    });
+        // Preview Uploaded Cover Photo
+        document.getElementById('cover-photo-input').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('cover-photo').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
 
-    // Preview uploaded profile photo
-    document.getElementById('profile-photo-upload').addEventListener('change', function (event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                document.getElementById('profile-photo').src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-</script>
+        // Preview Uploaded Profile Photo
+        document.getElementById('profile-photo-input').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('profile-photo').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+
 <%- include('./partials/_footer.ejs') %>
